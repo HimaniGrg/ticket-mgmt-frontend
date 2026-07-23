@@ -44,8 +44,12 @@ const routes = [
                 path: 'dashboard',
                 name: 'dashboard',
                 component: () => import('@/pages/Dashboard.vue')
+            },
+            {
+                path: 'ticket-list',
+                name: 'ticket-list',
+                component: () => import('@/pages/TicketList.vue')
             }
-
         ]
     }
 

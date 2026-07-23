@@ -1,5 +1,7 @@
 <script setup>
 
+import { LayoutDashboard, Ticket } from "lucide-vue-next";
+
 defineProps({
     open: {
         type: Boolean,
@@ -11,15 +13,14 @@ const menuItems = [
 
     {
         name: 'Dashboard',
-        icon: '🏠',
-        route: {name: 'dashboard'}
-    }
-
-    // {
-    //     name: 'Tickets',
-    //     icon: '🎫',
-    //     route: '/tickets'
-    // },
+        icon: LayoutDashboard,
+        route: { name: 'dashboard' }
+    },
+    {
+        name: 'Tickets',
+        icon: Ticket,
+        route: { name: 'ticket-list' }
+    },
 
     // {
     //     name: 'Users',
@@ -46,84 +47,76 @@ const menuItems = [
 
 <template>
 
-<aside
-    class="fixed left-0 top-0 h-screen bg-card border-r transition-all duration-300"
-    :class="open ? 'w-64' : 'w-20'"
->
+    <aside class="fixed left-0 top-0 h-screen bg-card border-r transition-all duration-300"
+        :class="open ? 'w-64' : 'w-20'">
 
 
-    <!-- Logo -->
+        <!-- Logo -->
 
-    <div class="h-16 flex items-center px-5 border-b">
+        <div class="h-16 flex items-center px-5 border-b">
 
-        <span class="text-xl font-bold">
-            <span v-if="open">
-                TicketMS
+            <span class="text-xl font-bold">
+                <span v-if="open">
+                    TicketMS
+                </span>
+
+                <span v-else>
+                    TM
+                </span>
             </span>
 
-            <span v-else>
-                TM
-            </span>
-        </span>
-
-    </div>
+        </div>
 
 
 
-    <!-- Navigation -->
+        <!-- Navigation -->
 
-    <nav class="p-4 space-y-2">
-
-
-        <RouterLink
-            v-for="item in menuItems"
-            :key="item.name"
-            :to="item.route"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent transition"
-        >
-
-            <span>
-                {{ item.icon }}
-            </span>
+        <nav class="p-4 space-y-2">
 
 
-            <span v-if="open">
-                {{ item.name }}
-            </span>
+            <RouterLink v-for="item in menuItems" :key="item.name" :to="item.route"
+                class="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+                active-class="bg-primary text-primary-foreground">
+
+                <component :is="item.icon" class="h-5 w-5" />
+
+                <span v-if="open">
+                    {{ item.name }}
+                </span>
+
+            </RouterLink>
 
 
-        </RouterLink>
-
-
-    </nav>
+        </nav>
 
 
 
-    <!-- User Section -->
+        <!-- User Section -->
 
 
-    <div class="absolute bottom-0 w-full border-t p-4">
+        <div class="absolute bottom-0 w-full border-t p-4">
 
 
-        <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
 
 
-            <div
-                class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center"
-            >
-                H
-            </div>
+                <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                    H
+                </div>
 
 
-            <div v-if="open">
+                <div v-if="open">
 
-                <p class="text-sm font-medium">
-                    Himani
-                </p>
+                    <p class="text-sm font-medium">
+                        Himani
+                    </p>
 
-                <p class="text-xs text-muted-foreground">
-                    Admin
-                </p>
+                    <p class="text-xs text-muted-foreground">
+                        Admin
+                    </p>
+
+                </div>
+
 
             </div>
 
@@ -131,10 +124,7 @@ const menuItems = [
         </div>
 
 
-    </div>
-
-
-</aside>
+    </aside>
 
 
 </template>
