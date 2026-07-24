@@ -18,6 +18,22 @@ import {
 import {
     Button
 } from "@/components/ui/button"
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.js'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+const username = ref("")
+const password = ref("")
+
+
+const login = () => {
+    auth.login(username.value)
+    router.push({ name: "dashboard" })
+}
+
 
 </script>
 
@@ -29,7 +45,7 @@ import {
 
         <CardHeader>
             <CardTitle class="text-2xl text-center">
-                Welcome 
+                Welcome
             </CardTitle>
 
             <CardDescription class="text-center">
@@ -40,14 +56,14 @@ import {
 
         <CardContent>
 
-            <form class="space-y-4">
+            <form class="space-y-4" @submit.prevent="login">
 
                 <div>
                     <label class="text-sm">
                         Username
                     </label>
 
-                    <Input type="text" placeholder="Enter your username" autocomplete="username" />
+                    <Input type="text" placeholder="Enter your username" autocomplete="username" v-model="username" />
                 </div>
 
 
@@ -59,19 +75,20 @@ import {
                             Password
                         </label>
 
-                        <a href="/forgot-password" class="text-sm text-primary hover:underline">
+                        <!-- <RouterLink to="/forgot-password"> -->
                             Forgot password?
-                        </a>
+                        <!-- </RouterLink> -->
 
                     </div>
 
 
-                    <Input type="password" placeholder="Enter your password" autocomplete="current-password" />
+                    <Input type="password" placeholder="Enter your password" autocomplete="current-password"
+                        v-model="password" />
 
                 </div>
 
 
-                <Button class="w-full">
+                <Button class="w-full" type="submit">
                     Login
                 </Button>
 
@@ -83,10 +100,9 @@ import {
 
                 Don't have an account?
 
-                <a href="/register" class="text-primary font-medium hover:underline">
+                <RouterLink to="/register" class="text-primary font-medium hover:underline">
                     Create account
-                </a>
-
+                </RouterLink>
             </div>
 
 

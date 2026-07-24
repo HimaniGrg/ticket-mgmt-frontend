@@ -1,7 +1,7 @@
 // createRouter -> creates application's router
 // createWebHistory -> history mode and this is the default making url look like /login
 import { createRouter, createWebHistory } from 'vue-router'
-
+import { useAuthStore } from '@/stores/auth'
 
 const routes = [
 
@@ -43,7 +43,10 @@ const routes = [
             {
                 path: 'dashboard',
                 name: 'dashboard',
-                component: () => import('@/pages/Dashboard.vue')
+                component: () => import('@/pages/Dashboard.vue'),
+                meta: {
+                    requiresAuth: true
+                }
             },
             {
                 path: 'ticket-list',
@@ -62,6 +65,16 @@ const router = createRouter({
 
     routes
 
+})
+
+router.beforeEach((to) => {
+    const auth = useAuthStore()
+
+    if (to.meta.requiresAuth && !auth.user) {
+        return {
+            name: 'login'
+        }
+    }
 })
 
 // default router export

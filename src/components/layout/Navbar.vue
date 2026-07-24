@@ -4,7 +4,8 @@ import { Menu, Bell } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 import ThemeToggle from '@/components/common/ThemeToggle.vue'
-
+import { useAuthStore } from '@/stores/auth.js'
+import { useRouter } from 'vue-router'
 
 const emit = defineEmits([
     'toggle-sidebar'
@@ -16,12 +17,19 @@ const toggleDropdown = () => {
 
     dropdownOpen.value = !dropdownOpen.value
 }
+
+const auth = useAuthStore()
+const router = useRouter()
+
+const logout = () => {
+    auth.logout()
+
+    router.push({ name: 'login' })
+}
 </script>
 
 
 <template>
-
-
     <header class="h-16 border-b bg-background flex items-center justify-between px-6">
         <div class="flex items-center gap-4">
             <button @click="$emit('toggle-sidebar')" class="p-2 rounded-lg hover:bg-accent cursor-pointer">
@@ -60,12 +68,12 @@ const toggleDropdown = () => {
                 <button @click="toggleDropdown" class="flex items-center gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg">
 
                     <div class="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center">
-                        H
+                        {{ auth.user?.username.charAt(0).toUpperCase() }}
                     </div>
 
 
                     <span>
-                        Himani
+                        {{ auth.user?.username }}
                     </span>
 
 
@@ -86,7 +94,7 @@ const toggleDropdown = () => {
                     </RouterLink>
 
 
-                    <button class="w-full text-left px-4 py-2 hover:bg-accent">
+                    <button class="w-full text-left px-4 py-2 hover:bg-accent" @click="logout">
                         Logout
                     </button>
 
