@@ -28,13 +28,27 @@ const router = useRouter()
 const username = ref("")
 const password = ref("")
 
+const login = async () => {
 
-const login = () => {
-    auth.login(username.value)
-    router.push({ name: "dashboard" })
+    try {
+        await auth.login({
+            username: username.value,
+            password: password.value
+        })
+        
+        router.push({
+            name:'dashboard'
+        })
+
+
+    }
+    catch(error){
+
+        console.log(error)
+
+    }
+
 }
-
-
 </script>
 
 
