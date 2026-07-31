@@ -1,39 +1,21 @@
-const fakeUsers = [
-    {
-        id: 1,
-        username: "himani",
-        name: "Himani Gurung",
-        password: "password123",
-        email: "himani@example.com",
-        role: "Admin",
+import api from "@/api/axios";
+
+export default {
+
+    login(credentials) {
+        return api.post("/login", credentials);
     },
-]
 
-export const loginUser = (credentials) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
+    register(data) {
+        return api.post("/register", data);
+    },
 
-            const user = fakeUsers.find(
-                user =>
-                    user.username === credentials.username &&
-                    user.password === credentials.password
-            )
+    logout() {
+        return api.post("/logout");
+    },
 
-            if (user) {
-                resolve({
-                    user: {
-                        id: user.id,
-                        username: user.username,
-                        name: user.name,
-                        email: user.email,
-                        role: user.role,
-                    },
-                    token: "fake-jwt-token",
-                })
-            } else {
-                reject(new Error("Invalid credentials"))
-            }
+    me() {
+        return api.get("/me");
+    }
 
-        }, 1000)
-    })
-}
+};

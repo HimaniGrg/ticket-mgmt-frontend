@@ -1,56 +1,96 @@
 import { defineStore } from "pinia";
-import { ref } from 'vue';
-import { loginUser } from '@/services/authService';
+import authService from "@/services/authService";
 
-// create a gloabl store and named that store as auth
-export const useAuthStore = defineStore('auth', () => {
-    // define a state
-    // const user = ref({
-    //     username: 'Himani',
-    //     role: 'Admin'
-    // });
+export const useAuthStore = defineStore("auth", {
 
-    // const user = ref(null)
+    state: () => ({
+        user: null,
+        token: localStorage.getItem("token"),
+        loading: false,
+    }),
 
-    const storedUser = localStorage.getItem('user')
-    const storedToken = localStorage.getItem('token')
+    getters: {
 
-    const user = ref(storedUser ? JSON.parse(storedUser) : null)
-    const token = ref(storedToken ? storedToken : null)
+        isAuthenticated: (state) => !!state.token,
 
-    // const login = (username) => {
-    //     user.value = {
-    //         username,
-    //         email: `${username}@example.com`,
-    //         role: 'Admin'
-    //     }
+        userRole: (state) => state.user?.role ?? null,
 
-    //     localStorage.setItem('user', JSON.stringify(user.value))
-    // }
+    },
 
-    const login = async (credentials) => {
-        try{
-            const response = await loginUser(credentials)
+    actions: {
 
-            user.value = response.user
-            token .value = response.token
+        async login(credentials) {
 
-            localStorage.setItem('user', JSON.stringify(user.value))
-            localStorage.setItem('token', token.value)
-        } catch(error) {
-            console.log(error)
-            throw error
+            this.loading = true;
+
+            try {
+
+                const response = await authService.login(credentials);
+
+                this.token = response.data.token;
+
+                localStorage.setItem("token", this.token);
+
+                await this.fetchUser();
+
+                return response;
+
+            } finally {
+
+                this.loading = false;
+
+            }
+
+        },
+
+        async register(data) {
+
+            this.loading = true;
+
+            try {
+
+                const response = await authService.register(data);
+
+                this.token = response.data.token;
+
+                localStorage.setItem("token", this.token);
+
+                await this.fetchUser();
+
+                return response;
+
+            } finally {
+
+                this.loading = false;
+
+            }
+
+        },
+
+        async fetchUser() {
+
+            const response = await authService.me();
+
+            this.user = response.data.data;
+
+        },
+
+        async logout() {
+
+            try {
+
+                await authService.logout();
+
+            } catch (e) {}
+
+            this.user = null;
+
+            this.token = null;
+
+            localStorage.removeItem("token");
+
         }
+
     }
 
-    const logout = () => {
-        user.value = null
-        token.value = null
-
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
-    }
-
-    // return the state and actions
-    return { user, token, login, logout }
-})
+});

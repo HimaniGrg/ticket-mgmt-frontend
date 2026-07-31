@@ -68,7 +68,7 @@ const logout = () => {
                 <button @click="toggleDropdown" class="flex items-center gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg">
 
                     <div class="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center dark:bg-primary/50 dark:text-primary">
-                        {{ auth.user?.username.charAt(0).toUpperCase() }}
+                        {{ auth.user?.name.charAt(0).toUpperCase() }}
                     </div>
 
 
