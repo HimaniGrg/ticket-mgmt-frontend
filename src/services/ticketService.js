@@ -24,6 +24,20 @@ export default {
         return api.patch(`/tickets/${id}/assign`, {
             assigned_to,
         });
+    },
+
+    addComment(id, body) {
+        return api.post(`/tickets/${id}/comments`, {
+            body,
+        });
+    },
+
+    getComments(id) {
+        return api.get(`/tickets/${id}/comments`);
+    },
+
+    getUsers() {
+        return api.get("/users"); // Requires Admin role to fetch user/staff list
     }
 
 };
