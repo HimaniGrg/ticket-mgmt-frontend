@@ -28,6 +28,11 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
+                path: 'users',
+                name: 'user-management',
+                component: () => import('@/pages/UserManagementView.vue'),
+            },
+            {
                 path: 'dashboard',
                 name: 'dashboard',
                 component: () => import('@/pages/Dashboard.vue')
@@ -43,7 +48,7 @@ const routes = [
                 component: () => import('@/pages/TicketCreate.vue')
             },
             {
-                path: 'tickets/:id', // ✅ Relative path fixes nesting inside AppLayout
+                path: 'tickets/:id',
                 name: 'ticket-detail',
                 component: () => import('@/pages/TicketDetailView.vue')
             }

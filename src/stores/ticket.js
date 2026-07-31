@@ -6,6 +6,8 @@ export const useTicketStore = defineStore("ticket", {
     state: () => ({
         tickets: [],
         ticket: null,
+        meta: {}, // Holds current_page, last_page, total, etc.
+        links: {}, // Holds prev, next links
         comments: [],
         users: [],
         loading: false,
@@ -25,6 +27,8 @@ export const useTicketStore = defineStore("ticket", {
                 // filters can contain { status: 'Open', priority: 'High' }
                 const response = await ticketService.getTickets(filters);
                 this.tickets = response.data.data;
+                this.meta = response.data.meta;
+                this.links = response.data.links;
             } finally {
                 this.loading = false;
             }

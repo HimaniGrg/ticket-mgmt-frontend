@@ -24,7 +24,17 @@ export const useUserStore = defineStore("user", {
 
             this.roles = response.data;
 
-        }
+        },
+
+        async updateUserRole(userId, role) {
+            const response = await userService.assignRole(userId, role);
+            const user = this.users.find(user => user.id === userId);
+
+            if(user) {
+                user.role = role;
+            }
+            return response.data.data;
+        },
 
     }
 

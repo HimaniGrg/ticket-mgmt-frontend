@@ -1,6 +1,7 @@
 <script setup>
 
-import { LayoutDashboard, Ticket } from "lucide-vue-next";
+import { LayoutDashboard, Ticket, Users } from "lucide-vue-next";
+import { useAuthStore } from "@/stores/auth";
 
 defineProps({
     open: {
@@ -8,6 +9,8 @@ defineProps({
         default: false
     }
 })
+
+const auth = useAuthStore()
 
 const menuItems = [
 
@@ -22,11 +25,11 @@ const menuItems = [
         route: { name: 'ticket-list' }
     },
 
-    // {
-    //     name: 'Users',
-    //     icon: '👥',
-    //     route: '/users'
-    // },
+    {
+        name: 'Users',
+        icon: Users,
+        route: { name: 'user-management' }
+    },
 
     // {
     //     name: 'Reports',
@@ -101,18 +104,17 @@ const menuItems = [
 
 
                 <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
-                    H
+                    {{ auth.user?.name.charAt(0).toUpperCase() }}
                 </div>
-
 
                 <div v-if="open">
 
                     <p class="text-sm font-medium">
-                        Himani
+                        {{ auth.user?.name }}
                     </p>
 
                     <p class="text-xs text-muted-foreground">
-                        Admin
+                        {{  auth.user?.role }}
                     </p>
 
                 </div>

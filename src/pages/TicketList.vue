@@ -5,7 +5,7 @@ import { useTicketStore } from "@/stores/ticket"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Plus, Search, Eye, Pencil } from "lucide-vue-next"
+import { Plus, Search, Eye, Pencil, ChevronRight, ChevronLeft } from "lucide-vue-next"
 
 const router = useRouter()
 const ticketStore = useTicketStore()
@@ -13,9 +13,12 @@ const ticketStore = useTicketStore()
 const search = ref("")
 const selectedStatus = ref("")
 const selectedPriority = ref("")
+const currentPage = ref(1)
 
 const loadTickets = async () => {
-    const filters = {}
+    const filters = {
+        page: currentPage.value
+    }
     if (selectedStatus.value) filters.status = selectedStatus.value
     if (selectedPriority.value) filters.priority = selectedPriority.value
 
@@ -128,14 +131,34 @@ const viewTicket = (id) => {
                                         <Button variant="ghost" size="icon" @click="viewTicket(ticket.id)">
                                             <Eye class="h-4 w-4" />
                                         </Button>
-                                        <Button variant="ghost" size="icon" @click="viewTicket(ticket.id)">
+                                        <!-- <Button variant="ghost" size="icon" @click="viewTicket(ticket.id)">
                                             <Pencil class="h-4 w-4" />
-                                        </Button>
+                                        </Button> -->
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="flex items-center justify-between pt-4 mt-4 border-t"
+                    v-if="ticketStore.meta?.last_page > 1">
+                    <p class="text-sm text-muted-foreground">
+                        Showing page <span class="font-medium">{{ ticketStore.meta.current_page }}</span> of <span
+                            class="font-medium">{{ ticketStore.meta.last_page }}</span> (Total: {{
+                        ticketStore.meta.total }})
+                    </p>
+                    <div class="flex items-center gap-2">
+                        <Button variant="outline" size="sm" :disabled="ticketStore.meta.current_page <= 1"
+                            @click="currentPage--">
+                            <ChevronLeft class="h-4 w-4 mr-1" /> Previous
+                        </Button>
+                        <Button variant="outline" size="sm"
+                            :disabled="ticketStore.meta.current_page >= ticketStore.meta.last_page"
+                            @click="currentPage++">
+                            Next
+                            <ChevronRight class="h-4 w-4 ml-1" />
+                        </Button>
+                    </div>
                 </div>
             </CardContent>
         </Card>
