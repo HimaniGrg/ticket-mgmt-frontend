@@ -16,11 +16,11 @@ const toggleSidebar = () => {
 
     <div class="min-h-screen bg-background">
 
-        <Sidebar :open="sidebarOpen" />
+        <Sidebar :open="sidebarOpen" @toggle-sidebar="toggleSidebar"/>
 
         <div class="transition-all duration-300" :class="sidebarOpen ? 'ml-64' : 'ml-20'">
 
-            <Navbar @toggle-sidebar="toggleSidebar" />
+            <Navbar />
 
 
             <main class="p-6">

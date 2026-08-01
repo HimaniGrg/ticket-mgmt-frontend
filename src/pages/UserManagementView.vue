@@ -47,10 +47,10 @@ const handleRoleChange = async (userId, newRole) => {
         <p class="text-sm text-muted-foreground">You must have Administrator privileges to manage user roles.</p>
     </div>
 
-    <div class="space-y-6 max-w-5xl mx-auto" v-else>
+    <div class="space-y-6 max-w-5xl" v-else>
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-3xl font-bold">User & Role Management</h1>
+                <h1 class="text-2xl font-bold">User & Role Management</h1>
                 <p class="text-muted-foreground">Assign and modify system access roles for registered accounts.</p>
             </div>
         </div>

@@ -41,18 +41,18 @@ const submitTicket = async () => {
 </script>
 
 <template>
-    <div class="space-y-6 max-w-3xl mx-auto">
-        <div class="flex items-center justify-between">
-            <RouterLink to="/app/ticket-list" class="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
-                <ArrowLeft class="mr-2 h-4 w-4" /> Back to Tickets
-            </RouterLink>
+    <div class="space-y-6">
+        <div class="flex items-center gap-2s">
+            <Button variant="ghost" size="icon" @click="router.push({ name: 'ticket-list' })">
+                <ArrowLeft class="mr-2 h-4 w-4" />
+            </Button>
+             <div>
+                <h1 class="text-2xl font-bold"> Create Ticket</h1>
+                <p class="text-muted-foreground text-md">Submit a new issue or request.</p>
+            </div>
         </div>
 
         <Card>
-            <CardHeader>
-                <CardTitle class="text-2xl">Create New Support Ticket</CardTitle>
-                <CardDescription>Submit a new issue or request. Our support staff and admins will be notified instantly.</CardDescription>
-            </CardHeader>
             <CardContent>
                 <form class="space-y-6" @submit.prevent="submitTicket">
                     <div v-if="errorMessage" class="rounded-md bg-destructive/10 p-3 text-sm text-destructive flex items-center gap-2">

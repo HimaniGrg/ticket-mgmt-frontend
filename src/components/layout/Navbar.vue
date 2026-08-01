@@ -7,9 +7,6 @@ import ThemeToggle from '@/components/common/ThemeToggle.vue'
 import { useAuthStore } from '@/stores/auth.js'
 import { useRouter } from 'vue-router'
 
-const emit = defineEmits([
-    'toggle-sidebar'
-])
 
 const dropdownOpen = ref(false)
 
@@ -32,13 +29,10 @@ const logout = () => {
 <template>
     <header class="h-16 border-b bg-background flex items-center justify-between px-6">
         <div class="flex items-center gap-4">
-            <button @click="$emit('toggle-sidebar')" class="p-2 rounded-lg hover:bg-accent cursor-pointer">
-                <Menu />
-            </button>
 
 
             <h1 class="text-xl font-semibold">
-                Dashboard
+                <!-- Dashboard -->
             </h1>
         </div>
 
@@ -65,20 +59,23 @@ const logout = () => {
 
             <div class="relative">
 
-                <button @click="toggleDropdown" class="flex items-center gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg">
+                <button @click="toggleDropdown"
+                    class="flex items-center gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg">
 
-                    <div class="h-9 w-9 rounded-full bg-primary text-white flex items-center justify-center dark:bg-primary/50 dark:text-primary">
-                        {{ auth.user?.name.charAt(0).toUpperCase() }}
+                    <div class="h-10 w-10 shrink-0 rounded-full bg-primary text-white flex items-center justify-center">
+                        {{ auth.user?.name ? auth.user.name.charAt(0).toUpperCase() : 'U' }}
                     </div>
 
-
-                    <span>
-                        {{ auth.user?.name }}
-                    </span>
-
+                    <div class="truncate">
+                        <p class="text-sm font-medium truncate">
+                            {{ auth.user?.name }}
+                        </p>
+                        <p class="text-xs text-muted-foreground truncate">
+                            {{ auth.user?.role }}
+                        </p>
+                    </div>
 
                 </button>
-
 
 
                 <div v-if="dropdownOpen" class="absolute right-0 mt-2 w-48 rounded-lg border bg-card shadow-lg">

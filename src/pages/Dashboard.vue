@@ -36,7 +36,7 @@ const activities = [
 <div class="space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-3xl font-bold">Welcome back, {{ auth.user?.name }} 👋</h1>
+            <h1 class="text-2xl font-bold">Welcome back, {{ auth.user?.name }} 👋</h1>
             <p class="text-muted-foreground">Here's what's happening today.</p>
         </div>
     </div>
@@ -46,7 +46,7 @@ const activities = [
             <CardContent class="flex items-center justify-between p-6">
                 <div>
                     <p class="text-sm text-muted-foreground">{{ item.title }}</p>
-                    <h2 class="text-3xl font-bold mt-2">{{ item.value }}</h2>
+                    <h2 class="text-2xl font-bold mt-2">{{ item.value }}</h2>
                 </div>
                 <component :is="item.icon" class="h-9 w-9 text-primary" />
             </CardContent>
